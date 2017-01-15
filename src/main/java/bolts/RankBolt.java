@@ -11,25 +11,30 @@ import org.apache.storm.tuple.Values;
 import java.util.Map;
 
 /**
- * Created by tom on 14.01.17.
+ * Created by tom on 13.01.17.
  */
-public class FilterAirportsBolt extends BaseRichBolt {
+public class RankBolt extends BaseRichBolt{
     OutputCollector _collector;
+
 
     @Override
     public void prepare(Map map, TopologyContext topologyContext, OutputCollector outputCollector) {
-        _collector=outputCollector;
+        _collector = outputCollector;
     }
 
     @Override
     public void execute(Tuple tuple) {
-        _collector.emit(tuple, new Values(tuple.getString(1)));
-        _collector.emit(tuple, new Values(tuple.getString(2)));
+        String airport = tuple.getStringByField("From");
+        String carrier = tuple.getStringByField("LineName");
+        float delay = Float.parseFloat(tuple.getStringByField("DepDelay"));
+            _collector.emit(tuple, new Values(airport, carrier));
         _collector.ack(tuple);
+
+
     }
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("AIRPORT_NAME"));
+        declarer.declare(new Fields("Airport", "Carrier"));
     }
 }

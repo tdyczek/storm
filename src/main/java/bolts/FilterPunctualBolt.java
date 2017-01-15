@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by tom on 14.01.17.
  */
-public class FilterAirportsBolt extends BaseRichBolt {
+public class FilterPunctualBolt extends BaseRichBolt {
     OutputCollector _collector;
 
     @Override
@@ -23,13 +23,16 @@ public class FilterAirportsBolt extends BaseRichBolt {
 
     @Override
     public void execute(Tuple tuple) {
-        _collector.emit(tuple, new Values(tuple.getString(1)));
-        _collector.emit(tuple, new Values(tuple.getString(2)));
+        float arrDelay = Float.parseFloat(tuple.getStringByField("ArrDel"));
+        if(arrDelay <= 0){
+            int dayOfWeek = Integer.parseInt(tuple.getStringByField("WeekDay"));
+            _collector.emit(tuple, new Values(dayOfWeek));
+        }
         _collector.ack(tuple);
     }
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("AIRPORT_NAME"));
+        declarer.declare(new Fields("DayOfWeek"));
     }
 }
