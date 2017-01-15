@@ -25,7 +25,7 @@ public class FilterPunctualBolt extends BaseRichBolt {
     public void execute(Tuple tuple) {
         float arrDelay = Float.parseFloat(tuple.getStringByField("ArrDel"));
         if(arrDelay <= 0){
-            int dayOfWeek = Integer.parseInt(tuple.getStringByField("WeekDay"));
+            String dayOfWeek = tuple.getStringByField("WeekDay");
             _collector.emit(tuple, new Values(dayOfWeek));
         }
         _collector.ack(tuple);

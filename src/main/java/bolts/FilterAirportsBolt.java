@@ -30,6 +30,6 @@ public class FilterAirportsBolt extends BaseRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("AIRPORT_NAME"));
+        declarer.declare(new Fields("AirportName"));
     }
 }
