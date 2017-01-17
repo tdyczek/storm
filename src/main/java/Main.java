@@ -26,7 +26,7 @@ public class Main {
 
         ZkHosts zkHosts = new ZkHosts(zookeeperHost);
 
-        SpoutConfig kafkaConfig = new SpoutConfig(zkHosts, "storm-test", "", "storm");
+        SpoutConfig kafkaConfig = new SpoutConfig(zkHosts, "storm2", "", "storm");
 
         kafkaConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
         KafkaSpout kafkaSpout = new KafkaSpout(kafkaConfig);
